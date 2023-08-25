@@ -4,4 +4,4 @@ services:
     build: ./nginx
     container_name: ng_test
     ports:
-      - "8080:8080"
+      - "443:443"
