@@ -1,19 +1,5 @@
-# FROM  ubuntu
-# RUN apt update && apt install -y nginx openssl
 
-# WORKDIR /app
-
-# COPY . .
-
-# RUN /usr/sbin/nginx
-
-
-
-# CMD ["nginx", "-g", "daemon off;"]
-# COPY nginx.conf /etc/nginx/nginx.conf
-
-
-FROM ubuntu
+FROM debian
 
 RUN apt update && apt install -y nginx openssl
 
