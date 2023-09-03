@@ -1,4 +1,4 @@
-FROM debian
+FROM debian:bullseye
 
 WORKDIR /app
 
@@ -17,7 +17,8 @@ RUN /etc/init.d/mariadb start
 
 SHELL ["/bin/zsh"]
 
-ENTRYPOINT [ "/app/tools/test_script.sh" ]
+CMD [ "zsh" ]
+# CMD [ "/app/tools/test_script.sh" ]
 
 # CMD ["mariadb"]
 # RUN zsh
