@@ -8,6 +8,8 @@ RUN apt-get -y update && \
     apt-get -y install curl zsh git
 RUN apt-get install -y mariadb-server
 
+COPY /app/conf/mariadb.conf /etc/mysql/mariadb.conf.d/50-server.cnf
+
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 
@@ -15,10 +17,11 @@ RUN chmod 777 /app/tools/test_script.sh
 
 RUN /etc/init.d/mariadb start
 
+
 SHELL ["/bin/zsh"]
 
-CMD [ "zsh" ]
-# CMD [ "/app/tools/test_script.sh" ]
+# CMD [ "zsh" ]
+CMD [ "/app/tools/test_script.sh" ]
 
 # CMD ["mariadb"]
 # RUN zsh
