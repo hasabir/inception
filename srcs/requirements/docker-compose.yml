@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.3'
 services:
   nginx:
     build: ./nginx
@@ -6,20 +6,20 @@ services:
     ports:
       - "443:443"
 
-  wordpress:
-    build: ./wordpress
-    container_name: wp
-    depends_on:
-      - mariadb
-    environment:
-      WORDPRESS_DB_HOST: mariadb
-      WORDPRESS_DB_USER: root
-      WORDPRESS_DB_PASSWORD: 123
-      WORDPRESS_DB_NAME: wordpress
+  # wordpress:
+  #   build: ./wordpress
+  #   container_name: wp
+  #   depends_on:
+  #     - mariadb
+  #   environment:
+  #     WORDPRESS_DB_HOST: mariadb
+  #     WORDPRESS_DB_USER: root
+  #     WORDPRESS_DB_PASSWORD: 123
+  #     WORDPRESS_DB_NAME: wordpress
 
-  mariadb:
-    build: ./mariadb
-    container_name: mariadb
-    environment:
-      MYSQL_DATABASE: wordpress
-      MYSQL_ROOT_PASSWORD: 123
+  # mariadb:
+  #   build: ./mariadb
+  #   container_name: mariadb
+  #   environment:
+  #     MYSQL_DATABASE: wordpress
+  #     MYSQL_ROOT_PASSWORD: 123
