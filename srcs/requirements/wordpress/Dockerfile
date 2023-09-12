@@ -5,20 +5,35 @@ WORKDIR /app
 COPY . .
 
 RUN apt-get -y update
-RUN apt-get -y install curl zsh git mariadb-server vim nginx
+# RUN apt-get -y install curl zsh git mariadb-server vim nginx
 
 RUN apt install -y wget\
 				php-fpm\
 				mariadb-client\
-				php-mysql 
+				php-mysql\
+				curl\
+				nginx
 
-RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+# RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 RUN wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz
-# RUN tar -xzvf /tmp/wordpress.tar.gz -C /app/tools
 RUN tar -xzvf /tmp/wordpress.tar.gz -C /var/www/html
-# RUN chown -R root:root /app/tools/wordpress
-RUN chown -R root:root /var/www/html/wordpress
-SHELL ["/bin/zsh"]
 
-CMD ["zsh"]
+# COPY ./tools/wordpress /var/www/html
+
+RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN chmod +x wp-cli.phar
+RUN mv wp-cli.phar /usr/local/bin/wp
+
+RUN chown -R root:root /var/www/html/wordpress
+COPY ./tools/www.conf /etc/php/7.3/fpm/pool.d
+RUN chmod +x /app/tools/script.sh
+RUN mkdir /run/php/
+ENTRYPOINT ["sh", "/app/tools/script.sh"]
+CMD ["php-fpm7.3", "-R", "-F"]
+# RUN chown -R root:root /app/tools/wordpress
+# RUN tar -xzvf /tmp/wordpress.tar.gz -C /app/tools
+
+# SHELL ["/bin/zsh"]
+
+# CMD ["zsh"]
