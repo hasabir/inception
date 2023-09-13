@@ -1,27 +1,107 @@
 version: '3.3'
 services:
-#   nginx:
-#     build: ./nginx
-#     container_name: ng
-#     ports:
-#       - "443:443"
+  nginx:
+    build: requirements/nginx
+    container_name: ng
+    ports:
+      - "443:443"
+    networks:
+      - inception
+    depends_on:
+      - wordpress
+    env_file:
+      - .env
+    volumes:
+      - type: volume
+        source: wordpress
+        target: /var/www/html/wordpress
+    # restart: on-failure
 
   wordpress:
-    build: ./wordpress
+    build: requirements/wordpress
+    networks:
+      - inception
+    expose:
+      - "9000"
     container_name: wp
     depends_on:
       - mariadb
-    environment:
-      WORDPRESS_DB_HOST: mariadb
-      WORDPRESS_DB_USER: root
-      WORDPRESS_DB_PASSWORD: 123
-      WORDPRESS_DB_NAME: wordpress
+    env_file:
+      - .env
+    volumes:
+      - type: volume
+        source: wordpress
+        target: /var/www/html/wordpress
+    # restart: on-failure
 
-  # mariadb:
-  #   build: requirements/mariadb
-  #   container_name: mariadb
-  #   env_file:
-  #     - .env
-  #   # environment:
-  #   #   MYSQL_DATABASE: wordpress
-  #   #   MYSQL_ROOT_PASSWORD: 123
+  mariadb:
+    build: requirements/mariadb
+    container_name: mariadb
+    networks:
+      - inception
+    volumes:
+      - type: volume
+        source: mariadb
+        target: /var/lib/mysql
+    expose:
+      - "3306"
+    env_file:
+      - .env
+    # restart: unless-stopped
+
+networks:
+  inception:
+    ipam:
+      driver: default
+volumes:
+  mariadb:
+  wordpress:
+
+
+
+# version: '3.3'
+# services:
+#   nginx:
+#     build: requirements/nginx
+#     container_name: ng
+#     ports:
+#       - "443:443"
+#     networks:
+#       - inception
+#     depends_on:
+#       - wordpress
+#     env_file:
+#       - .env
+#     # restart: on-failure
+
+#   wordpress:
+#     build: requirements/wordpress
+#     networks:
+#       - inception
+#     expose:
+#       - "9000"
+#     container_name: wp
+#     depends_on:
+#       - mariadb
+#     env_file:
+#       - .env
+#     # restart: on-failure
+
+#   mariadb:
+#     build: requirements/mariadb
+#     container_name: mariadb
+#     networks:
+#       - inception
+#     # volumes:
+#       # - mariadb:/var/lib/mysql
+#     expose:
+#       - "3306"
+#     env_file:
+#       - .env
+#     # restart: unless-stopped
+
+# networks:
+#   inception:
+#     ipam:
+#       driver: default
+

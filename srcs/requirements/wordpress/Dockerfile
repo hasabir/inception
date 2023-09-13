@@ -12,7 +12,8 @@ RUN apt install -y wget\
 				mariadb-client\
 				php-mysql\
 				curl\
-				nginx
+				nginx\
+				php7.4
 
 # RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
@@ -26,11 +27,11 @@ RUN chmod +x wp-cli.phar
 RUN mv wp-cli.phar /usr/local/bin/wp
 
 RUN chown -R root:root /var/www/html/wordpress
-COPY ./tools/www.conf /etc/php/7.3/fpm/pool.d
+COPY ./tools/www.conf /etc/php/7.4/fpm/pool.d
 RUN chmod +x /app/tools/script.sh
 RUN mkdir /run/php/
 ENTRYPOINT ["sh", "/app/tools/script.sh"]
-CMD ["php-fpm7.3", "-R", "-F"]
+CMD ["php-fpm7.4", "-R", "-F"]
 # RUN chown -R root:root /app/tools/wordpress
 # RUN tar -xzvf /tmp/wordpress.tar.gz -C /app/tools
 
