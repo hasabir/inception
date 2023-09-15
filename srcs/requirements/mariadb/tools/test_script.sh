@@ -22,9 +22,9 @@ mariadb -e "FLUSH PRIVILEGES;"
 
 # service mariadb stop
 
-mysqladmin -u root -p ${DB_ROOT_PASSWORD} shutdown
+mysqladmin -u root -p${DB_ROOT_PASSWORD} shutdown
 
 
-# exec mysqld_safe #run in the foreground
+exec mysqld_safe #run in the foreground
 
-mariadbd #run in the background
+# mariadb #run in the background
