@@ -32,7 +32,7 @@ RUN chmod +x /app/script.sh
 
 RUN mkdir /run/php/
 
-ENTRYPOINT ["sh", "/app/script.sh"]
+ENTRYPOINT ["bash", "/app/script.sh"]
 
 CMD ["php-fpm7.4", "-R", "-F"]
 # RUN chown -R root:root /app/tools/wordpress

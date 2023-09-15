@@ -1,4 +1,20 @@
-# cd /var/www/html/wordpress
+#!/bin/bash
+
+echo "test+++++++++++++++++++++++++++++++++++"
+cd /var/www/html/wordpress
+wp core download --allow-root
+
+ls
+
+wp config create --dbname=${DB_DATABASE} --dbuser=${DB_USERNAME}\
+	 --dbpass=${DB_PASSWORD} --dbhost=${DB_HOST} --allow-root
+echo I exited with $?
+echo _______________________________________
+ls 
+echo ___________________________________
+wp core install --url=\'hasabir.42.fr\' --title=DopamInception \
+		--admin_user=${WP_USER} --admin_password=${WP_PW} --admin_email=${WP_EMAIL} --allow-root
+exec $@
 
 # wp config create --allow-root
 # wp config create --allow-root --dbname=${DB_DATABASE} \
@@ -24,12 +40,6 @@
 
 
 
-wp core download --allow-root
-wp core config --dbname=${DB_DATABASE} --dbuser=${DB_USERNAME}\
-	 --dbpass=${DB_PASSWORD} --dbhost=mariadb --allow-root
-wp core install --url=${DB_HOST} --title=DopamInception \
-		--admin_user=${WP_USER} --admin_password=${WP_PW} --admin_email=${WP_EMAIL} --allow-root
-exec $@
 
 
 

@@ -6,7 +6,7 @@ sleep 10
 
 mariadb -e "CREATE DATABASE IF NOT EXISTS \`${DB_DATABASE}\`;"
 
-mariadb -e "CREATE USER IF NOT EXISTS \`${DB_USERNAME}\`@'localhost'\
+mariadb -e "CREATE USER IF NOT EXISTS \`${DB_USERNAME}\`@'%'\
 		 IDENTIFIED BY '${DB_PASSWORD}';"
 
 mariadb -e "GRANT ALL PRIVILEGES ON \`${DB_DATABASE}\`.* \
