@@ -1,9 +1,9 @@
-version: '3.3'
+version: '3.7'
 services:
   nginx:
     build: requirements/nginx
     image: nginx
-    container_name: ng
+    container_name: nginx
     ports:
       - "443:443"
     networks:
@@ -12,53 +12,56 @@ services:
       - wordpress
     env_file:
       - .env
-    # volumes:
-    #   - type: volume
-    #     source: wordpress
-    #     target: /var/www/html/wordpress
+    # command: [ "nginx", "-g", "daemon off;"]
+    command: ["/app/tools/script.sh"]
+    # command: ["/app/tools/script.sh", "--", "nginx", "-c", "/app/conf/nginx.conf", "-g", "daemon off;"]
+    
+      # - /home/hasabir/data:/var/www/html/wordpress
+    volumes:
+      - type: volume
+        source: wordpress
+        target: /var/www/html/wordpress
 
   wordpress:
     build: requirements/wordpress
-    image: wordpress:v1
+    image: wordpress
     # image: wordpress:v1 # skip-check
     networks:
       - inception
-    expose:
-      - "9000"
-    container_name: wp
+    # expose:
+    ports:
+      - "9000:9000"
+    container_name: wordpress
     depends_on:
       - mariadb
     env_file:
       - .env
-    environment:
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_HOST=${DB_HOST}
-    
-    # volumes:
-    #   - type: volume
-    #     source: wordpress
-    #     target: /var/www/html/wordpress
-    # restart: on-failure
+    # command: ["php-fpm7.4", "-R", "-F"]
+    # command: ["php-fpm7.4", "--nodaemonize"]
+    # command: ["php-fpm7.4", "-F", "--fpm-config", "/etc/php/7.4/fpm/php-fpm.conf"]
+    volumes:
+      - type: volume
+        source: wordpress
+        target: /var/www/html/wordpress
+    # restart: always
+
 
   mariadb:
     build: requirements/mariadb
-    image: mariadb:v01
+    image: mariadb
     container_name: mariadb
     networks:
       - inception
-    # volumes:
-    #   - type: volume
-    #     source: mariadb
-    #     target: /var/lib/mysql
-    expose:
-      - "3306"
+    volumes:
+      - type: volume
+        source: mariadb
+        target: /var/lib/mysql
+    # expose:
+    ports:
+      - "3306:3306"
     env_file:
       - .env
-    environment:
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_USERNAME=${DB_USERNAME}
-      - DB_HOST=${DB_HOST}
+    command: ["/app/tools/test_script.sh" ]
     # restart: unless-stopped
 
 networks:
@@ -66,7 +69,7 @@ networks:
     name: inception
     ipam:
       driver: default
-# volumes:
-#   mariadb:
-  # wordpress:
+volumes:
+  mariadb:
+  wordpress:
 

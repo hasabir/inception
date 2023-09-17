@@ -2,7 +2,7 @@
 
 service mariadb start
 
-sleep 10
+sleep 8
 
 mariadb -e "CREATE DATABASE IF NOT EXISTS \`${DB_DATABASE}\`;"
 
@@ -25,6 +25,6 @@ mariadb -e "FLUSH PRIVILEGES;"
 mysqladmin -u root -p${DB_ROOT_PASSWORD} shutdown
 
 
-exec mysqld_safe #run in the foreground
+exec mysqld_safe --bind_address=0.0.0.0
 
 # mariadb #run in the background

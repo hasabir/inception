@@ -13,12 +13,13 @@ RUN apt install -y wget\
 				php-mysql\
 				curl\
 				nginx\
-				php7.4
+				php7.4\
+				sendmail\
+				systemctl\
+				php
+		# php-mysql php-fpm php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip
 
-RUN wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz
-RUN tar -xzvf /tmp/wordpress.tar.gz -C /var/www/html
-
-# COPY ./tools/wordpress /var/www/html/wordpress
+RUN mkdir -p /var/www/html/wordpress
 
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x wp-cli.phar
@@ -34,10 +35,15 @@ RUN mkdir /run/php/
 
 ENTRYPOINT ["bash", "/app/script.sh"]
 
-CMD ["php-fpm7.4", "-R", "-F"]
 # RUN chown -R root:root /app/tools/wordpress
 # RUN tar -xzvf /tmp/wordpress.tar.gz -C /app/tools
 
 # SHELL ["/bin/zsh"]
 
+CMD ["php-fpm7.4", "-R", "-F"]
+
+# RUN wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz
+# RUN tar -xzvf /tmp/wordpress.tar.gz -C /var/www/html
+
+# COPY ./tools/wordpress /var/www/html/wordpress
 # CMD ["zsh"]
