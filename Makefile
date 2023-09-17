@@ -1,5 +1,4 @@
 
-default: help
 
 # help:
 # 	@echo "\033[93m"
@@ -12,7 +11,7 @@ default: help
 # 	@echo "\033[92m|\033[93m   ps          \033[00m- List running containers for the Docker Compose services \033[92m |\033[00m "
 # 	@echo "\033[92m|\033[93m   logs        \033[00m- List running containers for the Docker Compose services \033[92m |\033[00m "
 # 	@echo "\033[92m|__________________________________________________________________________\033[92m|\033[00m "
-
+.DEFAULT_GOAL := help
 
 help:
 	@echo "\033[93m"
@@ -20,39 +19,33 @@ help:
 	@echo "\033[92m|\033[93m                                                                         \033[92m |\033[00m "
 	@echo "\033[92m|\033[93m   up          \033[00m- Build and Start Docker Compose in detached mode        \033[92m  |\033[00m"
 	@echo "\033[92m|\033[93m   clean       \033[00m- Stop and remove the Docker Compose services             \033[92m |\033[00m "
-	@echo "\033[92m|\033[93m   fclean       \033[00m- Remove all docker containers and images                \033[92m |\033[00m "
+	@echo "\033[92m|\033[93m   fclean      \033[00m- Remove all docker containers and images                \033[92m |\033[00m "
 	@echo "\033[92m|\033[93m   volume_clean\033[00m- Stop and remove the Docker Compose services and volumes \033[92m |\033[00m "
-	@echo "\033[92m|\033[93m   image_clean \033[00m- Stop and remove the Docker Compose services all images  \033[92m |\033[00m "
+	@echo "\033[92m|\033[93m   image_clean \033[00m- Stop and remove the Docker Compose services and images  \033[92m |\033[00m "
 	@echo "\033[92m|\033[93m   restart     \033[00m- Restart the Docker Compose services                     \033[92m |\033[00m "
 	@echo "\033[92m|\033[93m   ps          \033[00m- List running containers for the Docker Compose services \033[92m |\033[00m "
-	@echo "\033[92m|\033[93m   logs        \033[00m- List running containers for the Docker Compose services \033[92m |\033[00m "
+	@echo "\033[92m|\033[93m   logs        \033[00m- Show logs for the Docker Compose services                \033[92m |\033[00m "
 	@echo "\033[92m|__________________________________________________________________________\033[92m|\033[00m "
 
-
-
-# build:
-# 	@docker-compose build
-
 up:
-	@docker-compose -f src/docker-compose.yml up --build
+	@docker-compose -f srcs/docker-compose.yml up --build
 
 clean:
-	@docker-compose -f src/docker-compose.yml down
+	@docker-compose -f srcs/docker-compose.yml down
 
 volume_clean:
-	@docker-compose -f src/docker-compose.yml -v
+	@docker-compose -f srcs/docker-compose.yml down -v
 
 image_clean:
-	@docker-compose -f src/docker-compose.yml -rmi all
+	@docker-compose -f srcs/docker-compose.yml down --rmi all
 
 restart:
-	@docker-compose -f src/docker-compose.yml restart
+	@docker-compose -f srcs/docker-compose.yml restart
 
-fclean:
-	
+fclean: clean image_clean
 
 ps:
-	@docker-compose -f src/docker-compose.yml ps
+	@docker-compose -f srcs/docker-compose.yml ps
+
 logs:
-	@docker-compose -f src/docker-compose.yml logs
-# .PHONY: build up down restart ps
+	@docker-compose -f srcs/docker-compose.yml logs

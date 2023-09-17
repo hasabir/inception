@@ -5,11 +5,11 @@ cd ${WP_PATH}
 
 rm -rf *
 
-systemctl start php7.4-fpm
+# systemctl start php7.4-fpm
 
-systemctl enable php7.4-fpm
+# systemctl enable php7.4-fpm
 
-systemctl status php7.4-fpm
+# systemctl status php7.4-fpm
 
 wp core download --allow-root
 
@@ -22,8 +22,8 @@ wp config create --dbname=${DB_DATABASE} --dbuser=${DB_USERNAME}\
 # 		--admin_user=${WP_USER} --admin_password=${WP_PW} \
 # 		--admin_email=${WP_EMAIL} --allow-root
 
-while true
-do
+# while true; do sleep 1; done
 
+php-fpm7.4 -R -F
 
-exec $@
+# exec $@

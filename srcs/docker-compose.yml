@@ -36,7 +36,7 @@ services:
       - mariadb
     env_file:
       - .env
-    # command: ["php-fpm7.4", "-R", "-F"]
+    command: ["bash" , "/app/script.sh"]
     # command: ["php-fpm7.4", "--nodaemonize"]
     # command: ["php-fpm7.4", "-F", "--fpm-config", "/etc/php/7.4/fpm/php-fpm.conf"]
     volumes:

@@ -27,7 +27,7 @@ RUN cp /app/conf/nginx.conf /etc/nginx/sites-available/
 
 RUN ln -s /etc/nginx/sites-available/nginx.conf /etc/nginx/sites-enabled/
 
-
+RUN mkdir -p /run/nginx
 
 # RUN touch /etc/nginx/conf.d/default.conf
 # RUN cp /app/conf/nginx.conf /etc/nginx/conf.d/default.conf

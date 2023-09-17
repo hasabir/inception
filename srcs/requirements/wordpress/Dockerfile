@@ -17,6 +17,7 @@ RUN apt install -y wget\
 				sendmail\
 				systemctl\
 				php
+				# php-cgi
 		# php-mysql php-fpm php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip
 
 RUN mkdir -p /var/www/html/wordpress
@@ -40,7 +41,7 @@ ENTRYPOINT ["bash", "/app/script.sh"]
 
 # SHELL ["/bin/zsh"]
 
-CMD ["php-fpm7.4", "-R", "-F"]
+# CMD ["php-fpm7.4", "-R", "-F"]
 
 # RUN wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz
 # RUN tar -xzvf /tmp/wordpress.tar.gz -C /var/www/html
