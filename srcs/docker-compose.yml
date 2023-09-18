@@ -25,7 +25,6 @@ services:
   wordpress:
     build: requirements/wordpress
     image: wordpress
-    # image: wordpress:v1 # skip-check
     networks:
       - inception
     # expose:
@@ -37,8 +36,6 @@ services:
     env_file:
       - .env
     command: ["bash" , "/app/script.sh"]
-    # command: ["php-fpm7.4", "--nodaemonize"]
-    # command: ["php-fpm7.4", "-F", "--fpm-config", "/etc/php/7.4/fpm/php-fpm.conf"]
     volumes:
       - type: volume
         source: wordpress

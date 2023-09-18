@@ -5,7 +5,6 @@ WORKDIR /app
 COPY tools/script.sh /app
 
 RUN apt-get -y update
-# RUN apt-get -y install curl zsh git mariadb-server vim nginx
 
 RUN apt install -y wget\
 				php-fpm\
@@ -16,9 +15,8 @@ RUN apt install -y wget\
 				php7.4\
 				sendmail\
 				systemctl\
-				php
-				# php-cgi
-		# php-mysql php-fpm php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip
+				php\
+				php-cgi
 
 RUN mkdir -p /var/www/html/wordpress
 
@@ -35,16 +33,3 @@ RUN chmod +x /app/script.sh
 RUN mkdir /run/php/
 
 ENTRYPOINT ["bash", "/app/script.sh"]
-
-# RUN chown -R root:root /app/tools/wordpress
-# RUN tar -xzvf /tmp/wordpress.tar.gz -C /app/tools
-
-# SHELL ["/bin/zsh"]
-
-# CMD ["php-fpm7.4", "-R", "-F"]
-
-# RUN wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz
-# RUN tar -xzvf /tmp/wordpress.tar.gz -C /var/www/html
-
-# COPY ./tools/wordpress /var/www/html/wordpress
-# CMD ["zsh"]
