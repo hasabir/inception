@@ -17,13 +17,17 @@ help:
 	@echo "\033[92m|__________________________________________________________________________\033[92m|\033[00m "
 
 up:
-	@docker-compose -f srcs/docker-compose.yml up --build -d
+	@docker-compose -f srcs/docker-compose.yml up --build
 
 clean:
 	@docker-compose -f srcs/docker-compose.yml down
 
 volume_clean:
-	@docker-compose -f srcs/docker-compose.yml down -v
+	@sudo chmod 777 /home/hasabir/data/wordpress
+	@sudo chmod 777 /home/hasabir/data/mariadb
+	@sudo rm -rf /home/hasabir/data/wordpress/*
+	@sudo rm -rf /home/hasabir/data/mariadb/*
+# @docker-compose -f srcs/docker-compose.yml down -v
 
 image_clean:
 	@docker-compose -f srcs/docker-compose.yml down --rmi all

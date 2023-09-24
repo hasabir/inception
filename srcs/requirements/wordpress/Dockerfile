@@ -1,8 +1,8 @@
 FROM debian:bullseye
 
-WORKDIR /app
+# WORKDIR /app
 
-COPY tools/script.sh /app
+COPY tools/wordpress_script.sh .
 
 RUN apt-get -y update
 
@@ -13,10 +13,12 @@ RUN apt install -y wget\
 				curl\
 				nginx\
 				php7.4\
-				sendmail\
-				systemctl\
-				php\
-				php-cgi
+				sendmail
+				# php
+
+# RUN wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz
+# RUN tar -xzvf /tmp/wordpress.tar.gz -C /var/www/html
+
 
 RUN mkdir -p /var/www/html/wordpress
 
@@ -26,10 +28,10 @@ RUN mv wp-cli.phar /usr/local/bin/wp
 
 RUN chown -R root:root /var/www/html/wordpress
 
-COPY ./tools/www.conf /etc/php/7.4/fpm/pool.d
+COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d
 
-RUN chmod +x /app/script.sh
+RUN chmod +x wordpress_script.sh
 
 RUN mkdir /run/php/
 
-ENTRYPOINT ["bash", "/app/script.sh"]
+CMD ["./wordpress_script.sh"]

@@ -1,7 +1,9 @@
 version: '3.7'
+
 services:
   nginx:
-    build: requirements/nginx
+    build:
+      context: ./requirements/nginx
     image: nginx
     container_name: nginx
     ports:
@@ -12,61 +14,50 @@ services:
       - wordpress
     env_file:
       - .env
-    # command: [ "nginx", "-g", "daemon off;"]
-    command: ["/app/tools/script.sh"]
-    # command: ["/app/tools/script.sh", "--", "nginx", "-c", "/app/conf/nginx.conf", "-g", "daemon off;"]
-    
-      # - /home/hasabir/data:/var/www/html/wordpress
     volumes:
-      - type: volume
-        source: wordpress
-        target: /var/www/html/wordpress
+      - /home/hasabir/data/wordpress:/var/www/html/wordpress
 
   wordpress:
-    build: requirements/wordpress
+    build:
+      context: ./requirements/wordpress
     image: wordpress
+    container_name: wordpress
     networks:
       - inception
-    # expose:
-    ports:
-      - "9000:9000"
-    container_name: wordpress
+    expose:
+      - 9000
     depends_on:
       - mariadb
     env_file:
       - .env
-    command: ["bash" , "/app/script.sh"]
     volumes:
-      - type: volume
-        source: wordpress
-        target: /var/www/html/wordpress
-    # restart: always
-
+      - /home/hasabir/data/wordpress:/var/www/html/wordpress
 
   mariadb:
-    build: requirements/mariadb
+    build:
+      context: ./requirements/mariadb
     image: mariadb
     container_name: mariadb
     networks:
       - inception
     volumes:
-      - type: volume
-        source: mariadb
-        target: /var/lib/mysql
-    # expose:
-    ports:
-      - "3306:3306"
+      - mariadb:/var/lib/mysql
+    expose:
+      - 3306
     env_file:
       - .env
-    command: ["/app/tools/test_script.sh" ]
-    # restart: unless-stopped
 
 networks:
   inception:
-    name: inception
-    ipam:
-      driver: default
+    driver: bridge
+
 volumes:
   mariadb:
-  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/hasabir/data/mariadb
+
+    # device: '/Users/login/data/mariadb
+#   wordpress:
 
