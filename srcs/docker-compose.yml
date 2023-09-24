@@ -57,7 +57,5 @@ volumes:
     driver_opts:
       type: none
       device: /home/hasabir/data/mariadb
-
-    # device: '/Users/login/data/mariadb
-#   wordpress:
+      o: 'bind'
 
