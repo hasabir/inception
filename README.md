@@ -48,7 +48,8 @@ The `docker-compose.yml` file is used to customize the environment's behavior. B
 3. **MariaDB**:
     - Database container for WordPress.
     - Uses a dedicated volume for data storage.
-  ---
+ ---
+## Technologies used:
 <p align="left">
   <a href="https://www.docker.com/" target="_blank" rel="noreferrer">
     <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/docker/docker-original.svg" alt="Docker" width="40" height="40"/>
